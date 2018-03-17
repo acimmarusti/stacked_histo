@@ -14,8 +14,21 @@ def check_support(support_query, supported_types, analysis):
 
 def bestbins(data):
 
+    #Try to convert data to numpy array#
+    try:
+        proc_data = np.array(data)
+    except Exception as e:
+        print('Tried to convert data to numpy array but failed, returning None')
+        return None
+    
     #Number of data#
-    ndata = len(data)
+    ndata = 1
+    for dim in proc_data.shape:
+        ndata *= dim
+
+    if ndata <= 1:
+        print('Data insufficient or empty')
+        return None        
 
     ##Sturges estimator - good for normal data and smaller datasets##
     bins_sturges = np.log2(ndata) + 1
